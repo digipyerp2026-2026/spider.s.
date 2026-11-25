@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      { "source": "/api/**", "function": { "functionId": "api", "region": "us-central1" } },
+      { "source": "**", "destination": "/index.html" }
+    ]
+  },
+  "functions": [
+    {
+      "source": "firebase/functions",
+      "codebase": "default",
+      "ignore": ["node_modules", "src", ".git", "*.log"],
+      "runtime": "nodejs22"
+    }
+  ],
+  "firestore": { "rules": "firebase/firestore.rules" },
+  "emulators": {
+    "functions": { "port": 5001 },
+    "firestore": { "port": 8080 },
+    "hosting": { "port": 5000 },
+    "ui": { "enabled": false }
+  }
+}

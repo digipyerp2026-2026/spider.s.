@@ -1,0 +1,21 @@
+{
+  // نشر البرنامج كاملاً على Cloudflare Workers (الواجهة + الخادم + الفوترة الإلكترونية)
+  // الأوامر: npm run cf:deploy   — وكلمة سر المزامنة: npx wrangler secret put SYNC_TOKEN
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "erp-retail",
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ERP", "class_name": "ErpBackend" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ErpBackend"] }],
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "observability": { "enabled": true }
+}
